@@ -1,0 +1,26 @@
+{
+  "name": "simple-crud-api",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "RSSchool Nodejs2021Q3 Task3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --es-module-specifier-resolution=node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gaziz666/simple-crud-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gaziz666/simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/Gaziz666/simple-crud-api#readme",
+  "dependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "^2.4.1",
+    "uuid": "^8.3.2"
+  }
+}
