@@ -2,7 +2,6 @@ import { v4 as uuid, validate as uuidValidate } from 'uuid';
 import { person } from './db.js';
 
 export const getController = (req, res, { id, query }) => {
-  console.log('start', id);
   if (id) {
     if (!uuidValidate(id)) {
       res.writeHead(400);
@@ -49,5 +48,48 @@ export const postController = (req, res) => {
 export const noResponse = (req, res, reqUrl) => {
   res.writeHead(404);
   res.write('Sorry url not found');
+  res.end();
+};
+
+export const putController = (req, res, { id }) => {
+  if (!uuidValidate(id)) {
+    res.writeHead(400);
+    res.write('id is not uuid format');
+    res.end();
+    return;
+  }
+  req.setEncoding('utf8');
+  req.on('data', (chunk) => {
+    if (!chunk) {
+    }
+    const updatedPerson = person.update(id, JSON.parse(chunk));
+    if (updatedPerson) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(JSON.stringify(updatedPerson));
+    } else {
+      res.writeHead(404);
+      res.write('person with given id not found');
+    }
+    res.end();
+    return;
+  });
+};
+
+export const deleteController = (req, res, { id }) => {
+  if (!uuidValidate(id)) {
+    res.writeHead(400);
+    res.write('id is not uuid format');
+    res.end();
+    return;
+  }
+  req.setEncoding('utf8');
+
+  const deleted = person.delete(id);
+  if (deleted) {
+    res.writeHead(204);
+  } else {
+    res.writeHead(404);
+    res.write('person with given id not found');
+  }
   res.end();
 };

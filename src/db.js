@@ -15,6 +15,32 @@ class Person {
     return this.person[newLength - 1];
   };
 
+  update = (id, opt) => {
+    const index = this.person.findIndex((item) => item.id === id);
+    if (index < 0) {
+      return 0;
+    }
+    if (opt.name) {
+      this.person[index].name = opt.name;
+    }
+    if (opt.age) {
+      this.person[index].age = opt.age;
+    }
+    if (opt.hobbies) {
+      this.person[index].hobbies = opt.hobbies;
+    }
+    return this.person[index];
+  };
+
+  delete = (id) => {
+    const filtered = this.person.filter((item) => item.id !== id);
+    const diff = this.person.length - filtered.length;
+    if (diff) {
+      this.person = filtered;
+    }
+    return diff;
+  };
+
   getAll = () => {
     return this.person;
   };
@@ -31,9 +57,14 @@ class Person {
     if (
       typeof opt.name === 'string' &&
       typeof opt.age === 'number' &&
-      typeof opt.hobbies === 'string'
+      Array.isArray(opt.hobbies)
     ) {
-      return true;
+      if (
+        opt.hobbies.length === 0 ||
+        opt.hobbies.every((item) => typeof item === 'string')
+      ) {
+        return true;
+      }
     }
     return;
   };

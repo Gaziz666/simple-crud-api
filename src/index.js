@@ -2,16 +2,22 @@
 import http from 'http';
 import { parse } from 'url';
 import { router } from './router.js';
+import { config } from 'dotenv';
+config();
 
-const host = 'localhost';
-const port = 3000;
+const host = process.env.HOST;
+const port = process.env.PORT;
 
 http
   .createServer((req, res) => {
     const parsedUrl = parse(req.url, true);
-    console.log(parsedUrl);
     const pathName = parsedUrl.pathname.split('/');
-    console.log(pathName);
+    if (pathName.length > 3) {
+      res.writeHead(404);
+      res.write('Url not found');
+      res.end();
+      return;
+    }
     let routerFunc =
       router[req.method + ':' + pathName[1]] || router['default'];
     try {
